@@ -100,7 +100,7 @@
              }
 
     }
-    // Модуль статистики
+    // Интерфейс статистики
     function statisticsInterface() {
          //Кнопка статистики
          document.getElementById('activeStat').onclick = () => {
@@ -184,9 +184,8 @@
         checkbatton.onmouseover = function(checkbatton) {
 
             let checkArray = {isk : document.getElementsByClassName(`b-popup-sj-link js-popup-sj-link js-popup-sj-link--upload`)[0].innerText}
-//let lelm123 = document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link")[i].innerText === undefined || i > 20;
 
-            for (let i = 0; document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link")[i].innerText === undefined || i < 5 ; i++) {
+            for (let i = 0; document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link").length >= i ; i++) {
                 checkArray[`md${i}`] = document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link")[i].innerText
                 console.log(`Добавлен фаил для проверки`, document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link")[i].innerText);
             }
@@ -202,14 +201,17 @@
                         }
                     }
                 }
+            return checkArray
             }
 
-            //Установка новых значений  файлов в куки
-            document.getElementsByClassName(`b-popup-button js-upload-submit`)[0].onclick = () => {
-                localStorage.setItem(`downLoadFilles`, JSON.stringify(checkArray))
-                console.log(`Установленны новые значения для сревнения файлов`)}
+        //Установка новых значений  файлов в куки
+        const saveButtonElem = document.getElementsByClassName(`b-popup-button js-upload-submit`)[0]
+        saveButtonElem.onclick = () => {
+            localStorage.setItem(`downLoadFilles`, JSON.stringify(checkArray))
+            console.log(`Установленны новые значения для сревнения файлов`)
+            }
     }
-    // Собирает статистику по загрузкам в localStorage
+    // Добавляет статистику по загрузкам в localStorage
     function addStaticOnLocalStorage() {
         let elem = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload")
 
