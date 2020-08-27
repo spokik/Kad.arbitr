@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Шаблоны допов 3
+// @name         Шаблоны допов 3 test
 // @namespace    http://tampermonkey.net/
 // @version      3.1.1
-// @description  При загрузке документов в карточку, выставляет Материалы дела по умолчанию
+// @description  Шаблоны и автоматизация работы сканировщика в системе kad.arbitr.ru
 // @author       @Spokik
 // @match        kad.arbitr.ru/Card/*
 // @grant        none
@@ -12,12 +12,18 @@
     window.onload = onloadPage()
 
     function onloadPage() {
+        defaultMD()
         addBattons()
         addTamplaties()
         statisticsInterface()
         checkReload()
         addStaticOnLocalStorage()
 
+    //При добавлении иска на сайт, скрипт автоматически указывает тип документа.
+    function defaultMD(){
+        document.getElementsByClassName(`b-popup-file_upload-attachments_list-item`)[1].onclick = () => {document.getElementsByClassName('js-input js-input--combobox js-input--deselect_with_save_val')[1].value = `Материалы по делу`;}
+        document.getElementsByClassName(`b-popup-sj-link js-popup-sj-link js-popup-sj-link--upload`)[0].onclick = () =>{document.getElementsByClassName('js-input js-input--combobox js-input--deselect_with_save_val')[1].value = `Материалы по делу`;}
+    }
     // Добавляет кнопки пользовательского интерфейса
     function addBattons() {
         let footer = document.createElement('div')
@@ -197,7 +203,7 @@
                     }
                 }
             }
-            
+
             //Установка новых значений  файлов в куки
             document.getElementsByClassName(`b-popup-button js-upload-submit`)[0].onclick = () => {
                 localStorage.setItem(`downLoadFilles`, JSON.stringify(checkArray))
@@ -206,7 +212,7 @@
     // Собирает статистику по загрузкам в localStorage
     function addStaticOnLocalStorage() {
         let elem = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload")
-           
+
             let promise = new Promise((resolve, reject) => {
                 let observer = new MutationObserver(mutationRecords => {
                     if( mutationRecords.length > 1) {
@@ -215,7 +221,7 @@
                         let sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + q + ") > div.r-col > h2 > span > p:nth-child(1)").textContent.split(" ")[54]
                         let docId = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload.b-popup--edit.js-popup--edit > form > input[type=hidden]:nth-child(4)").value
                         let a40 = document.querySelector("#b-case-header > ul.crumb.g-ec > li > span").textContent.split(" ")[20]
-         
+
                         resolve(saveScanStat, sostav, docId, a40)
                         return  saveScanStat, sostav, docId, a40
                     }
@@ -226,7 +232,7 @@
                 observer.observe(elem, {
                     attributes: true
                 })
-                
+
               })
               promise.catch(err =>{console.error(`Error: `, err)})
                     .then((saveScanStat, sostav, docId, a40)=>{
@@ -246,8 +252,8 @@
                     localStorage.setItem(`sostav${sostav}`, JSON.stringify(dataForLS))
     }
               })
-            
-    
+
+
 
 
 
@@ -258,6 +264,3 @@
 
 })();
 
-//! Что сделать
-//? Разобраться с обработчиком onclik одного события
-//* Дописать в модуль статистики второй столбец со сбором
