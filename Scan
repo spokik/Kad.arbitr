@@ -201,15 +201,18 @@
                         }
                     }
                 }
+
             return checkArray
             }
 
         //Установка новых значений  файлов в куки
         const saveButtonElem = document.getElementsByClassName(`b-popup-button js-upload-submit`)[0]
-        saveButtonElem.onclick = () => {
-            localStorage.setItem(`downLoadFilles`, JSON.stringify(checkArray))
+        function testForclick(array) {
+            localStorage.setItem(`downLoadFilles`, JSON.stringify(array))
             console.log(`Установленны новые значения для сревнения файлов`)
-            }
+        }
+        saveButtonElem.addEventListener("click", testForclick(checkArray))
+
     }
     // Добавляет статистику по загрузкам в localStorage
     function addStaticOnLocalStorage() {
