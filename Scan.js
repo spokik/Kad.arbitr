@@ -250,7 +250,8 @@
     function checkReload() {
       //Проверка повторной загрузки файлов
       let checkbatton = document.getElementById("UserTempale");
-      checkbatton.onmouseover = function (checkbatton) {
+      checkbatton.onmouseover = getNowFilies;
+      function getNowFilies() {
         let checkArray = {
           isk: document.getElementsByClassName(
             `b-popup-sj-link js-popup-sj-link js-popup-sj-link--upload`
@@ -287,14 +288,14 @@
           }
         }
         return checkArray;
-      };
+      }
 
       //Установка новых значений  файлов в куки
       const saveButtonElem = document.getElementsByClassName(
         `b-popup-button js-upload-submit`
       )[0];
       saveButtonElem.onclick = () => {
-        localStorage.setItem(`downLoadFilles`, JSON.stringify(checkArray));
+        localStorage.setItem(`downLoadFilles`, JSON.stringify(getNowFilies()));
         console.log(`Установленны новые значения для сревнения файлов`);
       };
     }
