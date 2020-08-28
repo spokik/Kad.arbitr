@@ -16,7 +16,7 @@
     addBattons();
     addTamplaties();
     statisticsInterface();
-    checkReload();
+    //checkReload()
     addStaticOnLocalStorage();
 
     //При добавлении иска на сайт, скрипт автоматически указывает тип документа.
@@ -250,8 +250,7 @@
     function checkReload() {
       //Проверка повторной загрузки файлов
       let checkbatton = document.getElementById("UserTempale");
-      checkbatton.onmouseover = getNowFilies;
-      function getNowFilies() {
+      checkbatton.onmouseover = function (checkbatton) {
         let checkArray = {
           isk: document.getElementsByClassName(
             `b-popup-sj-link js-popup-sj-link js-popup-sj-link--upload`
@@ -287,17 +286,19 @@
             }
           }
         }
+
         return checkArray;
-      }
+      };
 
       //Установка новых значений  файлов в куки
       const saveButtonElem = document.getElementsByClassName(
         `b-popup-button js-upload-submit`
       )[0];
-      saveButtonElem.onclick = () => {
-        localStorage.setItem(`downLoadFilles`, JSON.stringify(getNowFilies()));
+      function testForclick(array) {
+        localStorage.setItem(`downLoadFilles`, JSON.stringify(array));
         console.log(`Установленны новые значения для сревнения файлов`);
-      };
+      }
+      saveButtonElem.addEventListener("click", testForclick(checkArray));
     }
     // Добавляет статистику по загрузкам в localStorage
     function addStaticOnLocalStorage() {
@@ -329,8 +330,14 @@
               .querySelector("#b-case-header > ul.crumb.g-ec > li > span")
               .textContent.split(" ")[20];
 
-            resolve(saveScanStat, sostav, docId, a40);
-            return saveScanStat, sostav, docId, a40;
+            let params = {
+              saveScanStat: saveScanStat,
+              sostav: sostav,
+              docId: docId,
+              a40: a40,
+            };
+            console.log(`получены:`, params);
+            resolve(params);
           } else if (mutationRecords.length === 1) {
             return console.log(
               `Атрибуты изменились`,
@@ -347,21 +354,27 @@
         .catch((err) => {
           console.error(`Error: `, err);
         })
-        .then((saveScanStat, sostav, docId, a40) => {
+        .then((params) => {
           //Срабатывает прии НАЖАТИИ на "Сохранить"
-          saveScanStat.onclick = () => {
+          params.saveScanStat.onclick = () => {
+            console.log(`мы все еще имеем`, params);
             let now = new Date();
             let dataForLS = {};
-            dataForLS = JSON.parse(localStorage.getItem(`sostav${sostav}`));
+            dataForLS = JSON.parse(
+              localStorage.getItem(`sostav${params.sostav}`)
+            );
             if (dataForLS == null) {
               dataForLS = {};
             }
-            dataForLS[docId] = {
+            dataForLS[params.docId] = {
               day: `${now.getDate()}`,
               month: `${1 + now.getMonth()}`,
-              a40: `${a40}`,
+              a40: `${params.a40}`,
             };
-            localStorage.setItem(`sostav${sostav}`, JSON.stringify(dataForLS));
+            localStorage.setItem(
+              `sostav${params.sostav}`,
+              JSON.stringify(dataForLS)
+            );
           };
         });
     }
