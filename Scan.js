@@ -130,9 +130,7 @@
       if (document.getElementById(`month`) == null) {
         document.querySelector("#b-footer > div").style.height = "500px";
         document.querySelector("#b-footer").style.height = "500px";
-        document
-          .querySelector("#b-footer > div > div.b-copyright")
-          .after(addStatinterface);
+        document.querySelector("#b-footer > div > div.b-copyright").after(addStatinterface);
       } else {
         document.querySelector("#b-footer > div").style.height = "30px";
         document.querySelector("#b-footer").style.height = "30px";
@@ -141,9 +139,7 @@
 
       document.getElementById(`statStart`).onclick = () => {
         let dataForLS = {};
-        let sostavNumber = document.querySelector(
-          "#b-footer > div > div:nth-child(2) > input:nth-child(2)"
-        ).value;
+        let sostavNumber = document.querySelector("#b-footer > div > div:nth-child(2) > input:nth-child(2)").value;
         dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`));
         let counter = {};
 
@@ -185,9 +181,8 @@
         tableForStat.style.color = `#FFF`;
         tableForStat.style.position = `absolute`;
         tableForStat.style.margin = `30px 10px 10px 10px`;
-        document
-          .querySelector("#b-footer > div > div.b-copyright")
-          .before(tableForStat);
+        document.querySelector("#activeStat").before(tableForStat)
+        document.querySelector("#activeStat").after()// Заготовка под меню настроек
       };
     };
   }
