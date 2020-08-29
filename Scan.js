@@ -119,13 +119,13 @@
       let now = new Date();
       let addStatinterface = document.createElement("div")
       addStatinterface.innerHTML = `
-            <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
-                <input list="sostavNumber">
-                <datalist id="sostavNumber">
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
-                </datalist>
-                <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
-            `
+        <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
+          <input list="sostavNumber">
+          <datalist id="sostavNumber">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+          </datalist>
+          <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
+      `
 
       if (document.getElementById(`month`) == null) {
         document.querySelector("#b-footer > div").style.height = "500px";
@@ -136,16 +136,15 @@
         document.querySelector("#b-footer").style.height = "30px";
         document.querySelector("#b-footer > div > div:nth-child(2)").remove();
       }
-
-      document.getElementById(`statStart`).onclick = () => {
+      let usersButtons = document.getElementById(`statStart`)
+      usersButtons.addEventListener('click', () => { statTablegeneration() })
+      function statTablegeneration() {
         let dataForLS = {};
         let sostavNumber = document.querySelector("#b-footer > div > div:nth-child(2) > input:nth-child(2)").value;
         dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`));
         let counter = {};
 
-        let needMonth = Number(
-          document.querySelector("#month").value.substr(5, 7)
-        );
+        let needMonth = Number(document.querySelector("#month").value.substr(5, 7))
 
         for (let key in dataForLS) {
           if (dataForLS[key].month == needMonth) {
@@ -173,18 +172,17 @@
                     <tr>
                     <td>${key}</td>
                     <td>${counter[key]}</td>
-                </tr>`;
+                </tr>`
         }
-        tableString = tableString + `</table>`;
-        console.log(tableString);
-        tableForStat.innerHTML = tableString;
-        tableForStat.style.color = `#FFF`;
-        tableForStat.style.position = `absolute`;
-        tableForStat.style.margin = `30px 10px 10px 10px`;
-        document.querySelector("#activeStat").before(tableForStat)
-        document.querySelector("#activeStat").after()// Заготовка под меню настроек
-      };
-    };
+        tableString = tableString + `</table>`
+        tableForStat.innerHTML = tableString
+        tableForStat.style.color = `#FFF`
+        tableForStat.style.position = `absolute`
+        tableForStat.style.margin = `30px 10px 10px 10px`
+        document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
+        //document.querySelector("#activeStat").after(tableForStat)// Заготовка под меню настроек
+      }
+    }
   }
   // Проверка задвоенной загрузки файлов
   function checkReload() {
