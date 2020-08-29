@@ -16,7 +16,7 @@
     addBattons();
     addTamplaties();
     statisticsInterface();
-    //checkReload()
+    checkReload()
     addStaticOnLocalStorage();
 
     //При добавлении иска на сайт, скрипт автоматически указывает тип документа.
@@ -58,16 +58,12 @@
       <div id="processualnoePravopriemstvo" class="tampleteButton">Правоприемство</div>`;
 
       document
-        .querySelector(
-          "#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > div.b-popup-button.js-upload-submit"
-        )
+        .querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > div.b-popup-button.js-upload-submit")
         .before(classBlok);
-      document
-        .querySelector(
-          "#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > div.b-popup-button.js-upload-submit"
-        )
+      document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > div.b-popup-button.js-upload-submit")
         .before(divBlok);
-      document.querySelector("#b-footer > div > div.b-copyright").after(footer);
+      document.querySelector("#b-footer > div > div.b-copyright")
+        .after(footer);
     }
     // Добавляет обработчики интерфейса
     function addTamplaties() {
@@ -171,8 +167,8 @@
         addStatinterface.innerHTML = `
             <input type="month" id="month" name="month"
                 min="${now
-                  .toISOString()
-                  .substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
+            .toISOString()
+            .substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
 
                 <input list="sostavNumber">
                 <datalist id="sostavNumber">
@@ -249,9 +245,10 @@
     // Проверка задвоенной загрузки файлов
     function checkReload() {
       //Проверка повторной загрузки файлов
+      let checkArray
       let checkbatton = document.getElementById("UserTempale");
-      checkbatton.onmouseover = function (checkbatton) {
-        let checkArray = {
+      checkbatton.onmouseover = function () {
+        checkArray = {
           isk: document.getElementsByClassName(
             `b-popup-sj-link js-popup-sj-link js-popup-sj-link--upload`
           )[0].innerText,
@@ -319,8 +316,8 @@
             let sostav = document
               .querySelector(
                 "#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" +
-                  q +
-                  ") > div.r-col > h2 > span > p:nth-child(1)"
+                q +
+                ") > div.r-col > h2 > span > p:nth-child(1)"
               )
               .textContent.split(" ")[54];
             let docId = document.querySelector(
