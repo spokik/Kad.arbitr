@@ -210,7 +210,6 @@
       };
 
       //Установка новых значений  файлов в куки
-      //! обернуть появление кнопки в промис
       document.getElementsByClassName(`b-popup-button js-upload-submit`)[0].addEventListener("click", () => { testForclick(checkArray) }) //onclick = testForclick(checkArray) //
       function testForclick(array) {
         localStorage.setItem(`downLoadFilles`, JSON.stringify(array))
@@ -218,7 +217,6 @@
       }
 
     }
-
     // Добавляет статистику по загрузкам в localStorage
     function addStaticOnLocalStorage() {
       let elem = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload")
@@ -227,19 +225,29 @@
         let observer = new MutationObserver((mutationRecords) => {
           if (mutationRecords.length > 1) {
             let saveScanStat = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload.b-popup--edit.js-popup--edit > form > div.b-popup-button.js-upload-submit"); // кнопка по которой срабатывает скрипт
-            let q = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div").childElementCount - 2; //Номер определения сверху дива (бывает разныей, зависит от кол-ва доков загруженных после определения)
-            let sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + q + ") > div.r-col > h2 > span > p:nth-child(1)").textContent.split(" ")[54];
+            let q = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div").childElementCount  //Кол-во элементов для фикла
+            let sostav = 100
             let docId = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload.b-popup--edit.js-popup--edit > form > input[type=hidden]:nth-child(4)").value
-            let a40 = document.querySelector("#b-case-header > ul.crumb.g-ec > li > span").textContent.split(" ")[20];
+            let a40 = document.querySelector("#b-case-header > ul.crumb.g-ec > li > span").textContent.split(" ")[20]
+
+            for (let i = 1; i < q; i++) {
+              if (document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`) !== null) {
+                if (document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`).textContent == "                                                                           О принятии заявления к производству с рассмотрением в порядке упрощенного производства                                                                       ") {
+                  sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + i + ") > div.r-col > h2 > span > p:nth-child(1)").textContent.split(" ")[54]
+                } else { sostav = ' состав неопределен' }
+              }
+            }
 
             let params = {
               saveScanStat: saveScanStat,
               sostav: sostav,
               docId: docId,
               a40: a40,
-            };
+            }
+
             console.log(`получены:`, params);
             resolve(params)
+
           } else if (mutationRecords.length === 1) {
             return console.log(`Атрибуты изменились`, mutationRecords.length, `- Закрытие модального окна`)
           }
@@ -253,9 +261,9 @@
 
           //Срабатывает прии НАЖАТИИ на "Сохранить"
           params.saveScanStat.onclick = () => {
-            console.log(`мы все еще имеем`, params);
+            console.log(`мы все еще имеем`, params)
             let now = new Date();
-            let dataForLS = {};
+            let dataForLS = {}
             dataForLS = JSON.parse(
               localStorage.getItem(`sostav${params.sostav}`)
             );
@@ -266,13 +274,13 @@
               day: `${now.getDate()}`,
               month: `${1 + now.getMonth()}`,
               a40: `${params.a40}`,
-            };
+            }
             localStorage.setItem(
               `sostav${params.sostav}`,
               JSON.stringify(dataForLS)
-            );
-          };
-        });
+            )
+          }
+        })
     }
   }
 })();
