@@ -117,8 +117,9 @@
     //Кнопка статистики
     document.getElementById("activeStat").onclick = () => {
       let now = new Date();
-      let addStatinterface = document.createElement("div")
-      addStatinterface.innerHTML = `
+      let addStatInterface = document.createElement("div")
+      let addSettingsButton = document.createElement("div")
+      addStatInterface.innerHTML = `
         <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
           <input list="sostavNumber">
           <datalist id="sostavNumber">
@@ -126,11 +127,76 @@
           </datalist>
           <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
       `
+      let classBlok = document.createElement("style")
+      classBlok.innerHTML = `
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f3f3f3;
+      }
+      .settings {
+        position: absolute;
+        left: 82%;
+        top: 40px;
+        width: 250px;
+        border: 1px solid rgb(205 205 224);
+        padding: 5px;
+        color: rgb(255 255 255);
+        background: rgb(50 50 51);
+        display: block;
+      }
+      
+      input[type="checkbox"] {
+        width: 40px;
+        height: 20px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: #c6c6c6;
+        outline: none;
+        border-radius: 50px;
+        box-shadow: inset 0 0 5px rgba(0,0,0, .2);
+        transition: 0.5s;
+        position: absolute;
+        right: 10px;
+      }
+      input:checked[type="checkbox"] {
+        background: #02a9f4;
+      }
+      input[type="checkbox"]::before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        top: 0;
+        left: 0;
+        background: #fff;
+        transform: scale(1.1);
+        box-shadow: 0 2px 5px rgba(0,0,0, .2);
+        transition: 0.5s;
+      }
+      input:checked[type="checkbox"]::before {
+        left: 20px;
+      }
+      `
+      addSettingsButton.id = `settings`
+      addSettingsButton.classList = `settings`
+      addSettingsButton.innerHTML = `
+        auto MD <input type="checkbox" name="autoMD" checked><BR>
+        Шаблоны <input type="checkbox" name="tamplaties"><BR>
+        Проверять задвоенную загрузку <input type="checkbox" name="checkReload"><BR>
+        Собирать статистику <input type="checkbox" name="statCollect"><BR>
+        Пользователские составы <input type="checkbox" name="usersSS"><BR>
+        
+
+      `
 
       if (document.getElementById(`month`) == null) {
         document.querySelector("#b-footer > div").style.height = "500px";
         document.querySelector("#b-footer").style.height = "500px";
-        document.querySelector("#b-footer > div > div.b-copyright").after(addStatinterface);
+        document.querySelector("#b-footer > div > div.b-copyright").after(addStatInterface)
+        document.querySelector("#b-footer > div > div.b-copyright").after(classBlok)
+        document.querySelector("#b-footer > div > div.b-feedback").after(addSettingsButton)
       } else {
         document.querySelector("#b-footer > div").style.height = "30px";
         document.querySelector("#b-footer").style.height = "30px";
