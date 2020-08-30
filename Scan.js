@@ -12,27 +12,27 @@
   let usersSettings = JSON.parse(localStorage.getItem(`usersSettings`))
   if (usersSettings == undefined) {
     usersSettings = {
-      autoMD: true,
-      tamplaties: true,
-      checkReload: true,
-      statisticsInterface: true,
-      statCollect: true,
+      autoMD: "checked",
+      tamplaties: "checked",
+      checkReload: "checked",
+      statisticsInterface: "checked",
+      statCollect: "checked",
       usersSS: [5, 10]
     }
   }
   window.onload = onloadPage();
 
   function onloadPage() {
-    if (usersSettings.autoMD == true) { defaultMD() }
-    if (usersSettings.tamplaties == true) {
-      addBattons()
-      addTamplaties()
+    addBattons()
+    statisticsInterface()
+    if (usersSettings.autoMD == "checked") { defaultMD() }
+    if (usersSettings.tamplaties == "checked") { addTamplaties() }
+    if (usersSettings.checkReload == "checked") { checkReload() }
+    if (usersSettings.statCollect == "checked") { addStaticOnLocalStorage() }
+    if (false) {
+      //Тут будет выбора составов пользателя
     }
-    if (usersSettings.statisticsInterface == true) { statisticsInterface() }
-    if (usersSettings.checkReload == true) { checkReload() }
-    if (usersSettings.statCollect == true) { addStaticOnLocalStorage() }
   }
-
   //При добавлении иска на сайт, скрипт автоматически указывает тип документа.
   function defaultMD() {
     document.getElementsByClassName(`b-popup-file_upload-attachments_list-item`)[1].onclick = () => { document.getElementsByClassName("js-input js-input--combobox js-input--deselect_with_save_val")[1].value = `Материалы по делу`; };
@@ -112,84 +112,94 @@
       },
     };
   }
-  // Интерфейс статистики
+  // После и основным интерфейсом скрипта
   function statisticsInterface() {
     //Кнопка статистики
     document.getElementById("activeStat").onclick = () => {
+      let promise = new Promise((resolve, reject) => {
+        showSettingButton()
+        reportTableBild()
+        resolve()
+      })
+      promise.catch((err) => { console.error(`Error: `, err) })
+        .then(() => { setSettings() })
+
+
+    }
+
+    function showSettingButton() {
       let now = new Date();
       let addStatInterface = document.createElement("div")
       let addSettingsButton = document.createElement("div")
       addStatInterface.innerHTML = `
-        <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
-          <input list="sostavNumber">
-          <datalist id="sostavNumber">
-          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
-          </datalist>
-          <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
-      `
+      <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
+        <input list="sostavNumber" id="sostavNumber">
+        <datalist id="sostavNumber">
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+        </datalist>
+        <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
+    `
       let classBlok = document.createElement("style")
       classBlok.innerHTML = `
-      body {
-        margin: 0;
-        padding: 0;
-        background: #f3f3f3;
-      }
-      .settings {
-        position: absolute;
-        left: 82%;
-        top: 40px;
-        width: 250px;
-        border: 1px solid rgb(205 205 224);
-        padding: 5px;
-        color: rgb(255 255 255);
-        background: rgb(50 50 51);
-        display: block;
-      }
-      
-      input[type="checkbox"] {
-        width: 40px;
-        height: 20px;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background: #c6c6c6;
-        outline: none;
-        border-radius: 50px;
-        box-shadow: inset 0 0 5px rgba(0,0,0, .2);
-        transition: 0.5s;
-        position: absolute;
-        right: 10px;
-      }
-      input:checked[type="checkbox"] {
-        background: #02a9f4;
-      }
-      input[type="checkbox"]::before {
-        content: '';
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        top: 0;
-        left: 0;
-        background: #fff;
-        transform: scale(1.1);
-        box-shadow: 0 2px 5px rgba(0,0,0, .2);
-        transition: 0.5s;
-      }
-      input:checked[type="checkbox"]::before {
-        left: 20px;
-      }
-      `
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f3f3f3;
+    }
+    .settings {
+      position: absolute;
+      left: 82%;
+      top: 40px;
+      width: 250px;
+      border: 1px solid rgb(205 205 224);
+      padding: 5px;
+      color: rgb(255 255 255);
+      background: rgb(50 50 51);
+      display: block;
+    }
+    
+    input[type="checkbox"] {
+      width: 40px;
+      height: 20px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #c6c6c6;
+      outline: none;
+      border-radius: 50px;
+      box-shadow: inset 0 0 5px rgba(0,0,0, .2);
+      transition: 0.5s;
+      position: absolute;
+      right: 10px;
+    }
+    input:checked[type="checkbox"] {
+      background: #02a9f4;
+    }
+    input[type="checkbox"]::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: 0;
+      left: 0;
+      background: #fff;
+      transform: scale(1.1);
+      box-shadow: 0 2px 5px rgba(0,0,0, .2);
+      transition: 0.5s;
+    }
+    input:checked[type="checkbox"]::before {
+      left: 20px;
+    }
+    `
       addSettingsButton.id = `settings`
       addSettingsButton.classList = `settings`
       addSettingsButton.innerHTML = `
-        auto MD <input type="checkbox" name="autoMD" checked><BR>
-        Шаблоны <input type="checkbox" name="tamplaties"><BR>
-        Проверять задвоенную загрузку <input type="checkbox" name="checkReload"><BR>
-        Собирать статистику <input type="checkbox" name="statCollect"><BR>
-        Пользователские составы <input type="checkbox" name="usersSS"><BR>
-        
-
-      `
+      auto MD <input type="checkbox" name="autoMD" ${usersSettings.autoMD}><BR>
+      Шаблоны <input type="checkbox" name="tamplaties" ${usersSettings.tamplaties}><BR>
+      Проверять задвоенную загрузку <input type="checkbox" name="checkReload" ${usersSettings.checkReload}><BR>
+      Собирать статистику <input type="checkbox" name="statCollect" ${usersSettings.statCollect}><BR>
+      Пользователские составы <input type="checkbox" name="usersSS" ${usersSettings.usersSS}><BR>
+    `
 
       if (document.getElementById(`month`) == null) {
         document.querySelector("#b-footer > div").style.height = "500px";
@@ -202,11 +212,13 @@
         document.querySelector("#b-footer").style.height = "30px";
         document.querySelector("#b-footer > div > div:nth-child(2)").remove();
       }
+    }
+    function reportTableBild() {
       let usersButtons = document.getElementById(`statStart`)
       usersButtons.addEventListener('click', () => { statTablegeneration() })
       function statTablegeneration() {
         let dataForLS = {};
-        let sostavNumber = document.querySelector("#b-footer > div > div:nth-child(2) > input:nth-child(2)").value;
+        let sostavNumber = document.querySelector("#sostavNumber").value;
         dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`));
         let counter = {};
 
@@ -224,21 +236,21 @@
         let tableForStat = document.createElement(`div`);
 
         let tableString = `
-                <table>
-                    <tr>
-                        <td>День</td>
-                        <td>Штуки</td>
-                    </tr>
-                `;
+          <table>
+              <tr>
+                  <td>День</td>
+                  <td>Штуки</td>
+              </tr>
+          `;
 
         for (const key in counter) {
           tableString =
             tableString +
             `
-                    <tr>
-                    <td>${key}</td>
-                    <td>${counter[key]}</td>
-                </tr>`
+              <tr>
+              <td>${key}</td>
+              <td>${counter[key]}</td>
+          </tr>`
         }
         tableString = tableString + `</table>`
         tableForStat.innerHTML = tableString
@@ -246,9 +258,32 @@
         tableForStat.style.position = `absolute`
         tableForStat.style.margin = `30px 10px 10px 10px`
         document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
-        //document.querySelector("#activeStat").after(tableForStat)// Заготовка под меню настроек
+
       }
     }
+    function setSettings() {
+      let elem = document.querySelector("#settings")
+      elem.addEventListener("click", () => {
+        let preSet = {}
+
+        for (let i = 0; i < document.querySelectorAll("#settings > input[type=checkbox]").length; i++) {
+          let x = document.querySelectorAll("#settings > input[type=checkbox]")[i]
+          if (x.checked) {
+            preSet[x.name] = "checked"
+          } else {
+            preSet[x.name] = ""
+          }
+
+          //Не забудь про составы
+        }
+        localStorage.setItem(`usersSettings`, JSON.stringify(preSet))
+        console.log(`in localSorage:`)
+
+      })
+
+
+    }
+
   }
   // Проверка задвоенной загрузки файлов
   function checkReload() {
