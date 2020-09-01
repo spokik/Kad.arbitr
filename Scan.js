@@ -157,6 +157,23 @@
       background: rgb(50 50 51);
       display: block;
     }
+    #word_opts {
+      width: 20px;
+      height: 20px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #c6c6c6;
+      outline: none;
+      border-radius: 6px;
+      box-shadow: inset 0 0 5px rgba(0,0,0, .2);
+      transition: 0.5s;
+      position: absolute;
+      //right: 10px;
+    }
+    
+    label input[type="checkbox"]:checked + #word_opts {
+      background: #02a9f4;
+    }
     
     input[type="checkbox"] {
       width: 40px;
@@ -198,7 +215,26 @@
       Шаблоны <input type="checkbox" name="tamplaties" ${usersSettings.tamplaties}><BR>
       Проверять задвоенную загрузку <input type="checkbox" name="checkReload" ${usersSettings.checkReload}><BR>
       Собирать статистику <input type="checkbox" name="statCollect" ${usersSettings.statCollect}><BR>
-      Пользователские составы <input type="checkbox" name="usersSS" ${usersSettings.usersSS}><BR>
+      Пользователские составы 
+      <label>
+        <input type="checkbox" name="usersSS" style="display:none;">
+        <span id="word_opts">01</span>
+      </label><br>
+      <label>
+        <input type="checkbox" name="usersSS" style="display:none;">
+        <span id="word_opts">02</span>
+      </label>
+      <br>
+      <label>
+        <input type="checkbox" name="usersSS" style="display:none;">
+        <span id="word_opts">02</span>
+      </label>
+      <br>
+      <label>
+        <input type="checkbox" name="usersSS" style="display:none;">
+        <span id="word_opts">02</span>
+      </label>
+    <BR>
     `
 
       if (document.getElementById(`month`) == null) {
@@ -295,8 +331,6 @@
 
       for (let i = 0; document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link").length > i; i++) {
         checkArray[`md${i}`] = document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link")[i].innerText;
-        console.log(`Добавлен фаил для проверки`, document.querySelectorAll("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div > form > div > div > ul > li > a.b-popup-loaded-attachments_list-item-link")[i].innerText
-        )
       }
 
       // значение прошлого иска
@@ -309,8 +343,9 @@
       //Сравнивает настоящие и прошлые файлы
       for (let key in checkArray) {
         for (let prop in lastFilles) {
-          if (checkArray[key] == lastFilles[prop]) {
-            alert(`Ты уже загружал(а) ${checkArray[key]}, но загружаешь ${checkArray[prop]} повторно`);
+          if (checkArray[key] === "Прикрепить файл") { return }
+          if (checkArray[key] === lastFilles[prop]) {
+            alert(`Ты уже загружал(а) > ${checkArray[key]} <, но загружаешь > ${checkArray[prop]} < повторно`);
           }
         }
       }
@@ -321,7 +356,6 @@
     document.getElementsByClassName(`b-popup-button js-upload-submit`)[0].addEventListener("click", () => { testForclick(checkArray) }) //onclick = testForclick(checkArray) //
     function testForclick(array) {
       localStorage.setItem(`downLoadFilles`, JSON.stringify(array))
-      console.log(`Установленны новые значения для сревнения файлов`)
     }
 
   }
@@ -369,12 +403,9 @@
 
         //Срабатывает прии НАЖАТИИ на "Сохранить"
         params.saveScanStat.onclick = () => {
-          console.log(`мы все еще имеем`, params)
           let now = new Date();
           let dataForLS = {}
-          dataForLS = JSON.parse(
-            localStorage.getItem(`sostav${params.sostav}`)
-          );
+          dataForLS = JSON.parse(localStorage.getItem(`sostav${params.sostav}`))
           if (dataForLS == null) {
             dataForLS = {};
           }
@@ -383,9 +414,7 @@
             month: `${1 + now.getMonth()}`,
             a40: `${params.a40}`,
           }
-          localStorage.setItem(
-            `sostav${params.sostav}`,
-            JSON.stringify(dataForLS)
+          localStorage.setItem(`sostav${params.sostav}`, JSON.stringify(dataForLS)
           )
         }
       })
