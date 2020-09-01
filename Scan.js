@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Шаблоны допов 3 test
+// @name         Шаблоны допов dev
 // @namespace    http://tampermonkey.net/
 // @version      3.1.1
 // @description  Шаблоны и автоматизация работы сканировщика в системе kad.arbitr.ru
@@ -186,7 +186,7 @@
       box-shadow: inset 0 0 5px rgba(0,0,0, .2);
       transition: 0.5s;
       position: absolute;
-      right: 10px;
+      right: 40px;
     }
     input:checked[type="checkbox"] {
       background: #02a9f4;
