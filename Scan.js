@@ -373,8 +373,25 @@
 
           for (let i = 1; i < q; i++) {
             if (document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`) !== null) {
-              if (document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`).textContent == "                                                                           О принятии заявления к производству с рассмотрением в порядке упрощенного производства                                                                       ") {
-                sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + i + ") > div.r-col > h2 > span > p:nth-child(1)").textContent.split(" ")[54]
+              let checker = document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`)
+                .textContent //полуучает текст
+                .trim() //Удаляет пробелы "с краёв"
+                .split(` `) //Правращает в масив по разделителю " "
+              let stringValueCounter = 0
+              for (let i = 0; i < checker.length; i++) {
+                if (checker[i] === `О` ||
+                  checker[i] === `принятии` ||
+                  checker[i] === `производству`) {
+                  stringValueCounter++
+                }
+              }
+
+              if (stringValueCounter > 2) {
+                sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + i + ") > div.r-col > h2 > span > p:nth-child(1)")
+                  .textContent
+                  .trim() //Удаляет пробелы "с краёв"
+                  .split(` `) //Правращает в масив по разделителю " "
+                  .pop() //"вырезает" последний элемент масива
               } else { sostav = ' состав неопределен' }
             }
           }
@@ -416,7 +433,7 @@
         }
       })
   }
-  //тут будет функция подсчитывающая сделанные составы в день
+  //получает масив составов, вовзращает строку
   function sostavPerDay(sostavs) {
     let today = new Date().getDate()
     let month = new Date().getMonth() + 1
@@ -426,14 +443,16 @@
       for (let key in starArray) {
         if (starArray[key].month == month) {
           if (starArray[key].day == today) {
-            counter[`sostavs${sostavs[index]}`] + 1
+            if (counter[sostavs[index]] == undefined) { counter[sostavs[index]] = 0 }
+            counter[sostavs[index]]++
           }
         }
       }
     }
     //string stringify
-    let stringReturn
+    let stringReturn = ''
     for (let key in counter) {
+
       stringReturn = stringReturn + `${key} состав: ${counter[key]} штук | `
     }
     return stringReturn
