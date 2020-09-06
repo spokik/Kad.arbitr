@@ -251,15 +251,18 @@
         document.querySelector("#b-footer > div > div:nth-child(2)").remove();
       }
     }
-    //Строит отчет по выбранному составу
+
     function reportTableBild() {
-      let usersButtons = document.getElementById(`statStart`)
+      const usersButtons = document.getElementById(`statStart`)
       usersButtons.addEventListener('click', () => { statTablegeneration() })
+
+      //Строит отчет по выбранному составу
       function statTablegeneration() {
-        let dataForLS = {};
-        let sostavNumber = document.querySelector("#sostavNumber").value;
-        dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`));
-        let counter = {};
+        let dataForLS = {}
+        let sostavNumber = document.querySelector("#sostavNumber").value
+        const lastMonth = document.querySelector("lastMonth").value
+        dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`))
+        let counter = { "Прошлый месяц": lastMonth }
 
         let needMonth = Number(document.querySelector("#month").value.substr(5, 7))
 
