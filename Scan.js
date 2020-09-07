@@ -25,6 +25,7 @@
   function onloadPage() {
     addBattons()
     statisticsInterface()
+      donwloadStatus()
     if (usersSettings.autoMD == "checked") { defaultMD() }
     if (usersSettings.tamplaties == "checked") { addTamplaties() }
     if (usersSettings.checkReload == "checked") { checkReload() }
@@ -32,6 +33,7 @@
     if (false) {
       //Тут будет выбора составов пользателя
     }
+
   }
   //При добавлении иска на сайт, скрипт автоматически указывает тип документа.
   function defaultMD() {
@@ -444,6 +446,51 @@
       })
   }
 
+  async function donwloadStatus(){
+      const url = 'https://kad.arbitr.ru/SimpleJustice/UploadStatus'
+      const data = { username: 'example' };
+
+      try {
+          const response = await fetch(url, {
+              method: 'POST', // или 'PUT'
+              body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          let get =0
+          if(!response.ok){
+               get = await response
+              console.log('не успех:', get);
+          }
+          if(response.ok){
+               get = await response
+              console.log('Успех:', get);
+          }
+
+
+      } catch (error) {
+          console.error('Ошибка:', error);
+      }
+  }
+   function donwloadStatus2(){
+      const url = 'https://kad.arbitr.ru/SimpleJustice/UploadStatus'
+      const data = { username: 'example' };
+
+      fetch(url,{
+      method: 'POST',
+          headers: {
+      'Content-Type': 'application/json'
+    },
+       body: JSON.stringify(data)
+      })
+          .then((response) => {
+          return response.json();
+      })
+          .then((data) => {
+          console.log(data);
+      });
+  }
   //получает масив составов, вовзращает строку
   function sostavPerDay(sostavs) {
     let today = new Date().getDate()
