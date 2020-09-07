@@ -172,11 +172,11 @@
       position: absolute;
       //right: 10px;
     }
-    
+
     label input[type="checkbox"]:checked + #word_opts {
       background: #02a9f4;
     }
-    
+
     input[type="checkbox"] {
       width: 40px;
       height: 20px;
@@ -217,7 +217,7 @@
       Шаблоны <input type="checkbox" name="tamplaties" ${usersSettings.tamplaties}><BR>
       Проверять задвоенную загрузку <input type="checkbox" name="checkReload" ${usersSettings.checkReload}><BR>
       Собирать статистику <input type="checkbox" name="statCollect" ${usersSettings.statCollect}><BR>
-      Пользователские составы 
+      Пользователские составы
       <label>
         <input type="checkbox" name="usersSS" style="display:none;">
         <span id="word_opts">01</span>
@@ -260,7 +260,7 @@
       function statTablegeneration() {
         let dataForLS = {}
         let sostavNumber = document.querySelector("#sostavNumber").value
-        const lastMonth = document.querySelector("lastMonth").value
+        const lastMonth = document.querySelector("#lastMonth").value
         dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`))
         let counter = { "Прошлый месяц": lastMonth }
 
