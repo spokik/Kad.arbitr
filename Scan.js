@@ -376,6 +376,7 @@
           let docId = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload.b-popup--edit.js-popup--edit > form > input[type=hidden]:nth-child(4)").value
           let a40 = document.querySelector("#b-case-header > ul.crumb.g-ec > li > span").textContent.split(" ")[20]
 
+
           for (let i = 1; i < q; i++) {
             if (document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`) !== null) {
               let checker = document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`)
@@ -383,24 +384,28 @@
                 .trim() //Удаляет пробелы "с краёв"
                 .split(` `) //Правращает в масив по разделителю " "
               let stringValueCounter = 0
-              for (let i = 0; i < checker.length; i++) {
-                if (checker[i] === `О` ||
-                  checker[i] === `принятии` ||
-                  checker[i] === `производству`) {
-                  stringValueCounter++
-                }
+              if (stringValueCounter < 2) {
+                  for (let i = 0; i < checker.length; i++) {
+                      if (checker[i] === `О` ||
+                          checker[i] === `принятии` ||
+                          checker[i] === `производству`) {stringValueCounter++}
+                  }
               }
 
-              if (stringValueCounter > 2) {
+              if (stringValueCounter > 2 ) {
                 sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + i + ") > div.r-col > h2 > span > p:nth-child(1)")
                   .textContent
                   .trim() //Удаляет пробелы "с краёв"
                   .split(` `) //Правращает в масив по разделителю " "
                   .pop() //"вырезает" последний элемент масива
-              } else { sostav = ' состав неопределен' }
+              } else if( sostav !== 100 && sostav !== ' состав неопределен') {
+                 // console.log(`Состав:`, sostav, `идем дальше`)
+              }
+                  else{ sostav = ' состав неопределен' }
             }
-          }
 
+          }
+            console.log(`Состав:`, sostav)
           let params = {
             saveScanStat: saveScanStat,
             sostav: sostav,
