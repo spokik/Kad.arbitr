@@ -32,6 +32,7 @@
     if (false) {
       //Тут будет выбора составов пользателя
     }
+
   }
   //При добавлении иска на сайт, скрипт автоматически указывает тип документа.
   function defaultMD() {
@@ -379,7 +380,7 @@
 
           for (let i = 1; i < q; i++) {
             if (document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`) !== null) {
-              let checker = document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a > span`)
+              let checker = document.querySelector(`#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(${i}) > div.r-col > h2 > a `)
                 .textContent //полуучает текст
                 .trim() //Удаляет пробелы "с краёв"
                 .split(` `) //Правращает в масив по разделителю " "
@@ -403,9 +404,10 @@
               }
                   else{ sostav = ' состав неопределен' }
             }
-
           }
-            console.log(`Состав:`, sostav)
+
+            sostavAtPopup (sostav)
+
           let params = {
             saveScanStat: saveScanStat,
             sostav: sostav,
@@ -442,7 +444,21 @@
           )
         }
       })
+
+      function sostavAtPopup (sostav) {
+      const elem = document.createElement("div")
+      elem.className = "b-popup-info"
+      elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+
+      if (sostav === ` состав неопределен`){
+          elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+          elem.style.color = "red"
+      }
+          document.querySelector("div.js-popup-info_attributes").append(elem)
+
+      }
   }
+
 
   //получает масив составов, вовзращает строку
   function sostavPerDay(sostavs) {
