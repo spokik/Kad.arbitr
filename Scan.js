@@ -161,17 +161,15 @@
       display: block;
     }
     #word_opts {
-      width: 20px;
-      height: 20px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+      position: relative;
+      padding: 4px;
+      width: 60px;
+      height: 60px;
       background: #c6c6c6;
       outline: none;
-      border-radius: 6px;
+      border-radius: 7px;
       box-shadow: inset 0 0 5px rgba(0,0,0, .2);
       transition: 0.5s;
-      position: absolute;
-      //right: 10px;
     }
 
     label input[type="checkbox"]:checked + #word_opts {
@@ -213,30 +211,47 @@
     `
       addSettingsButton.id = `settings`
       addSettingsButton.classList = `settings`
+
+      function changeSS(usersSS) {
+        let stringCounter = 1
+        let sostavChangeBattons = `<div>`
+        for (let i = 1; i <= 20; i++) {
+          let sostasAsString = i
+          let displayInput = ``
+          if (i < 10) {
+            sostasAsString = `0` + i
+          }
+          for (const key in usersSS) {
+            if (usersSS[key] == i) {
+              displayInput = `checked`
+            }
+          }
+
+
+          sostavChangeBattons = sostavChangeBattons + `
+        <label>
+          <input type="checkbox" name="usersSS" style="display:none;" ${displayInput} >
+          <span id="word_opts">${sostasAsString}</span>
+        </label>
+        `
+          if (stringCounter == 5) {
+            sostavChangeBattons = sostavChangeBattons + `<div></div>`
+            stringCounter = 0
+          }
+          stringCounter++
+        }
+        sostavChangeBattons = sostavChangeBattons + `</div>`
+        return sostavChangeBattons
+      }
+
+
       addSettingsButton.innerHTML = `
       auto MD <input type="checkbox" name="autoMD" ${usersSettings.autoMD}><BR>
       Шаблоны <input type="checkbox" name="tamplaties" ${usersSettings.tamplaties}><BR>
       Проверять задвоенную загрузку <input type="checkbox" name="checkReload" ${usersSettings.checkReload}><BR>
       Собирать статистику <input type="checkbox" name="statCollect" ${usersSettings.statCollect}><BR>
       Пользователские составы
-      <label>
-        <input type="checkbox" name="usersSS" style="display:none;">
-        <span id="word_opts">01</span>
-      </label><br>
-      <label>
-        <input type="checkbox" name="usersSS" style="display:none;">
-        <span id="word_opts">02</span>
-      </label>
-      <br>
-      <label>
-        <input type="checkbox" name="usersSS" style="display:none;">
-        <span id="word_opts">02</span>
-      </label>
-      <br>
-      <label>
-        <input type="checkbox" name="usersSS" style="display:none;">
-        <span id="word_opts">02</span>
-      </label>
+      <div>${changeSS(usersSettings.usersSS)}</div>
     <BR>
     `
 
@@ -386,27 +401,27 @@
                 .split(` `) //Правращает в масив по разделителю " "
               let stringValueCounter = 0
               if (stringValueCounter < 2) {
-                  for (let i = 0; i < checker.length; i++) {
-                      if (checker[i] === `О` ||
-                          checker[i] === `принятии` ||
-                          checker[i] === `производству`) {stringValueCounter++}
-                  }
+                for (let i = 0; i < checker.length; i++) {
+                  if (checker[i] === `О` ||
+                    checker[i] === `принятии` ||
+                    checker[i] === `производству`) { stringValueCounter++ }
+                }
               }
 
-              if (stringValueCounter > 2 ) {
+              if (stringValueCounter > 2) {
                 sostav = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div > div:nth-child(" + i + ") > div.r-col > h2 > span > p:nth-child(1)")
                   .textContent
                   .trim() //Удаляет пробелы "с краёв"
                   .split(` `) //Правращает в масив по разделителю " "
                   .pop() //"вырезает" последний элемент масива
-              } else if( sostav !== 100 && sostav !== ' состав неопределен') {
-                 // console.log(`Состав:`, sostav, `идем дальше`)
+              } else if (sostav !== 100 && sostav !== ' состав неопределен') {
+                // console.log(`Состав:`, sostav, `идем дальше`)
               }
-                  else{ sostav = ' состав неопределен' }
+              else { sostav = ' состав неопределен' }
             }
           }
 
-            sostavAtPopup (sostav)
+          sostavAtPopup(sostav)
 
           let params = {
             saveScanStat: saveScanStat,
@@ -445,18 +460,18 @@
         }
       })
 
-      function sostavAtPopup (sostav) {
+    function sostavAtPopup(sostav) {
       const elem = document.createElement("div")
       elem.className = "b-popup-info"
       elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
 
-      if (sostav === ` состав неопределен`){
-          elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
-          elem.style.color = "red"
+      if (sostav === ` состав неопределен`) {
+        elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+        elem.style.color = "red"
       }
-          document.querySelector("div.js-popup-info_attributes").append(elem)
+      document.querySelector("div.js-popup-info_attributes").append(elem)
 
-      }
+    }
   }
 
 
