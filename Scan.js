@@ -211,7 +211,6 @@
     `
       addSettingsButton.id = `settings`
       addSettingsButton.classList = `settings`
-
       function changeSS(usersSS) {
         let stringCounter = 1
         let sostavChangeBattons = `<div>`
@@ -243,8 +242,6 @@
         sostavChangeBattons = sostavChangeBattons + `</div>`
         return sostavChangeBattons
       }
-
-
       addSettingsButton.innerHTML = `
       auto MD <input type="checkbox" name="autoMD" ${usersSettings.autoMD}><BR>
       Шаблоны <input type="checkbox" name="tamplaties" ${usersSettings.tamplaties}><BR>
@@ -334,6 +331,12 @@
           //! Сделать меню выбора состава
           preSet.usersSS = [5, 10]
         }
+
+        for (let i = 0; i < document.querySelectorAll("#settings > div > div > label").length; i++) {
+          let ss = document.querySelectorAll("#settings > div > div > label > input[type=checkbox]")[i]
+          //! Установить массив из активных составов
+        }
+
         localStorage.setItem(`usersSettings`, JSON.stringify(preSet))
       })
 
