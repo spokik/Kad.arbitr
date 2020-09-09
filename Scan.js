@@ -261,10 +261,9 @@
       } else {
         document.querySelector("#b-footer > div").style.height = "30px";
         document.querySelector("#b-footer").style.height = "30px";
-        document.querySelector("#b-footer > div > div:nth-child(2)").remove();
+        document.querySelector("#b-footer > div > div:nth-child(3)").remove();
       }
     }
-
     function reportTableBild() {
       const usersButtons = document.getElementById(`statStart`)
       usersButtons.addEventListener('click', () => { statTablegeneration() })
@@ -315,7 +314,9 @@
         document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
 
       }
+
     }
+
     function setSettings() {
       let elem = document.querySelector("#settings")
       elem.addEventListener("click", () => {
@@ -328,13 +329,14 @@
           } else {
             preSet[x.name] = ""
           }
-          //! Сделать меню выбора состава
-          preSet.usersSS = [5, 10]
-        }
 
+        }
+          preSet.usersSS = []
         for (let i = 0; i < document.querySelectorAll("#settings > div > div > label").length; i++) {
           let ss = document.querySelectorAll("#settings > div > div > label > input[type=checkbox]")[i]
-          //! Установить массив из активных составов
+          if(ss.checked){
+          preSet.usersSS.push(i+1)
+          }
         }
 
         localStorage.setItem(`usersSettings`, JSON.stringify(preSet))
