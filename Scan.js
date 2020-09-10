@@ -475,8 +475,17 @@
       const elem = document.createElement("div")
       elem.className = "b-popup-info"
       elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+      function isCorrectSostav () {
+          for(let i = 0; i < usersSettings.usersSS.length ; i++ ){
+              if(usersSettings.usersSS[i] === sostav){
+                  return true
+              } else {
+                  return false
+              }
+          }
+      }
 
-      if (sostav === ` состав неопределен`) {
+      if (sostav === ` состав неопределен`|| isCorrectSostav || sostav === 100) {
         elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
         elem.style.color = "red"
       }
@@ -486,7 +495,7 @@
   }
 
 
-  //получает масив составов, вовзращает строку
+  //получает масив составов, вовзращает строку " состав: штук | состав: штук ..."
   function sostavPerDay(sostavs) {
     let today = new Date().getDate()
     let month = new Date().getMonth() + 1
