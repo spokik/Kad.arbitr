@@ -337,11 +337,11 @@
           }
 
         }
-          preSet.usersSS = []
+        preSet.usersSS = []
         for (let i = 0; i < document.querySelectorAll("#settings > div > div > label").length; i++) {
           let ss = document.querySelectorAll("#settings > div > div > label > input[type=checkbox]")[i]
-          if(ss.checked){
-          preSet.usersSS.push(i+1)
+          if (ss.checked) {
+            preSet.usersSS.push(i + 1)
           }
         }
 
@@ -399,7 +399,7 @@
         if (mutationRecords.length > 1) {
           let saveScanStat = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload.b-popup--edit.js-popup--edit > form > div.b-popup-button.js-upload-submit"); // кнопка по которой срабатывает скрипт
           let q = document.querySelector("#chrono_list_content > div.b-chrono-items-container.js-chrono-items-container > div").childElementCount  //Кол-во элементов для фикла
-          let sostav = 100
+          let sostav = ' состав неопределен'
           let docId = document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload.b-popup--edit.js-popup--edit > form > input[type=hidden]:nth-child(4)").value
 
           //it's selector for add new document without the card
@@ -428,7 +428,7 @@
                   .trim() //Удаляет пробелы "с краёв"
                   .split(` `) //Правращает в масив по разделителю " "
                   .pop() //"вырезает" последний элемент масива
-              } else if (sostav !== 100 && sostav !== ' состав неопределен') {
+              } else if (sostav !== ' состав неопределен') {
                 // console.log(`Состав:`, sostav, `идем дальше`)
               }
               else { sostav = ' состав неопределен' }
@@ -479,23 +479,25 @@
       elem.className = "b-popup-info"
       elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
       let isYourSostav = false
-      function isCorrectSostav () {
-          for(let i = 0; i < usersSettings.usersSS.length ; i++ ){
-              if(usersSettings.usersSS[i] == sostav){
-                  isYourSostav = true
-                  return
-              } else {
-                  isYourSostav = false
+      function isCorrectSostav() {
+        for (let i = 0; i < usersSettings.usersSS.length; i++) {
+          if (usersSettings.usersSS[i] == sostav) {
+            isYourSostav = true
+            return
+          } else {
+            isYourSostav = false
 
-              }
           }
+        }
       }
-        isCorrectSostav ()
-      if (sostav === ` состав неопределен`|| !isYourSostav || sostav === 100) {
-        elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+      isCorrectSostav()
+      if (sostav === ` состав неопределен` || !isYourSostav) {
+        elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" id="SSOnPop" title="${sostav}">${sostav}</span>`
         elem.style.color = "red"
       }
-      document.querySelector("div.js-popup-info_attributes").append(elem)
+      if (document.querySelector(`#SSOnPop`) !== null) { } else { document.querySelector("div.js-popup-info_attributes").append(elem) }
+
+
 
     }
   }
