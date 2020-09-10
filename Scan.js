@@ -475,17 +475,20 @@
       const elem = document.createElement("div")
       elem.className = "b-popup-info"
       elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+      let isYourSostav = false
       function isCorrectSostav () {
           for(let i = 0; i < usersSettings.usersSS.length ; i++ ){
-              if(usersSettings.usersSS[i] === sostav){
-                  return true
+              if(usersSettings.usersSS[i] == sostav){
+                  isYourSostav = true
+                  return
               } else {
-                  return false
+                  isYourSostav = false
+
               }
           }
       }
-
-      if (sostav === ` состав неопределен`|| isCorrectSostav || sostav === 100) {
+        isCorrectSostav ()
+      if (sostav === ` состав неопределен`|| !isYourSostav || sostav === 100) {
         elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
         elem.style.color = "red"
       }
