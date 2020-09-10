@@ -53,10 +53,11 @@
     divBlok.innerHTML = `
       <div id="istec" class="tampleteButton" >Истец</div>
       <div id="otvetchik" class="tampleteButton">Ответчик</div>
-      <div id="PoObshimPravilam" class="tampleteButton">По общим</div><br>
-
-      <div id="Otziv" class="tampleteButton">Отзыв.О</div>
+      <div id="PoObshimPravilam" class="tampleteButton">По общим</div>
+      <div id="Clarify" class="tampleteButton">Уточнение.И</div>
+      <br>
       <div id="hodOPriob" class="tampleteButton">Приобщении.И</div>
+      <div id="Otziv" class="tampleteButton">Отзыв.О</div>
       <div id="otkazOtIska" class="tampleteButton">Отказ.И</div>
       <div id="processualnoePravopriemstvo" class="tampleteButton">Правоприемство</div>`;
 
@@ -79,7 +80,7 @@
     document.getElementById("otkazOtIska").onclick = () => pastValuesFromTamplate(tamplatesValue.OtmenaIska.value, tamplatesValue.OtmenaIska.licantl, tamplatesValue.OtmenaIska.showText);
     document.getElementById("processualnoePravopriemstvo").onclick = () => pastValuesFromTamplate(tamplatesValue.processual.value, tamplatesValue.processual.licantl, tamplatesValue.processual.showText);
     document.getElementById("PoObshimPravilam").onclick = () => pastValuesFromTamplate(tamplatesValue.PoObshimPravilam.value, tamplatesValue.PoObshimPravilam.licantl, tamplatesValue.PoObshimPravilam.showText);
-
+    document.getElementById("Clarify").onclick = () => pastValuesFromTamplate(tamplatesValue.Clarify.value, tamplatesValue.Clarify.licantl, tamplatesValue.Clarify.showText);
     function pastValuesFromTamplate(value, licantl, showText) {
       document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > table > tbody > tr > td.b-popup-sj-table-item.b-popup-sj-table-item--name > dl > dd > select > option").value = value;
       document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > dl > dd > div > span > label > input").value = licantl;
@@ -111,6 +112,11 @@
         value: `c8c5bdb7-5335-474e-9a49-55ca44250525`,
         licantl: applicantl2,
         showText: `Ходатайство о рассмотрении дела по общим правилам искового производства`,
+      },
+      Clarify: {
+        value: `07388172-ff14-4517-848b-0a07649f334d`,
+        licantl: applicantl1,
+        showText: `Ходатайство об уточнении размера исковых требований`,
       },
     };
   }
