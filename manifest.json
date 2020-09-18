@@ -1,0 +1,20 @@
+﻿{
+	"name": "kad4scan",
+	"version": "2.0.0",
+	"description": "kad4scan - extensions for work in kad as scanner",
+	"permissions": [
+        "https://*.tribalwars2.com/game.php*"
+    ],
+	"icons": {
+		"128": "overflow.png"
+	},
+    "browser_action": {
+        "default_icon": "overflow.png"
+    },
+	"content_scripts": [{
+		"js": ["kad.js"],
+		"matches": ["https://*.kad.arbitr.ru/Card/*"],
+		"run_at": "document_end"
+	}],
+	"manifest_version": 2
+}
