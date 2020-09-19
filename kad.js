@@ -1,5 +1,14 @@
 ﻿
-  "use strict";
+"use strict";
+
+import { injectFunction } from './my-script.js';
+import { windowForUserScript } from './modules/alert.js';
+if (document.location.href === `https://kad.arbitr.ru/`) { windowForUserScript() }
+injectFunction();
+
+
+
+if (document.location.href != `https://kad.arbitr.ru/`) {
   let usersSettings = JSON.parse(localStorage.getItem(`usersSettings`))
   if (usersSettings == undefined) {
     usersSettings = {
@@ -442,7 +451,7 @@
       });
       observer.observe(elem, {
         attributes: true,
-          childList: true
+        childList: true
       })
     })
     promise.catch((err) => { console.error(`Error: `, err) })
@@ -520,5 +529,5 @@
     return stringReturn
   }
 
-
+}
 
