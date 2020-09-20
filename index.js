@@ -8,4 +8,13 @@ import { statisticsInterface } from './modules/statisticsInterface.js'
 import { addStaticOnLocalStorage } from './modules/addStaticOnLocalStorage.js'
 
 
-export { windowForUserScript, defaultMD, addBattons, addTamplaties, addStaticOnLocalStorage, usersSettings, checkReload, statisticsInterface }
+export {
+  windowForUserScript,
+  defaultMD,
+  addBattons,
+  addTamplaties,
+  addStaticOnLocalStorage,
+  usersSettings,
+  checkReload,
+  statisticsInterface
+}

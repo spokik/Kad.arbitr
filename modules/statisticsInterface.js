@@ -2,24 +2,24 @@ import { usersSettings } from './usersSettings.js'
 
 // После и основным интерфейсом скрипта
 function statisticsInterface() {
-    //Кнопка статистики
-    document.getElementById("activeStat").onclick = () => {
-        let promise = new Promise((resolve, reject) => {
-            showSettingButton()
-            reportTableBild()
-            resolve()
-        })
-        promise.catch((err) => { console.error(`Error: `, err) })
-            .then(() => { setSettings() })
+  //Кнопка статистики
+  document.getElementById("activeStat").onclick = () => {
+    let promise = new Promise((resolve, reject) => {
+      showSettingButton()
+      reportTableBild()
+      resolve()
+    })
+    promise.catch((err) => { console.error(`Error: `, err) })
+      .then(() => { setSettings() })
 
 
-    }
-    //добавляет в открытое поле статистики необходимые кнопки
-    function showSettingButton() {
-        let now = new Date();
-        let addStatInterface = document.createElement("div")
-        let addSettingsButton = document.createElement("div")
-        addStatInterface.innerHTML = `
+  }
+  //добавляет в открытое поле статистики необходимые кнопки
+  function showSettingButton() {
+    let now = new Date();
+    let addStatInterface = document.createElement("div")
+    let addSettingsButton = document.createElement("div")
+    addStatInterface.innerHTML = `
       <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
         <input type="number" placeholder="Прошлый месяц" id="lastMonth">
         <input list="sostavNumber" id="sostavNumber">
@@ -28,8 +28,8 @@ function statisticsInterface() {
         </datalist>
         <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
     `
-        let classBlok = document.createElement("style")
-        classBlok.innerHTML = `
+    let classBlok = document.createElement("style")
+    classBlok.innerHTML = `
     body {
       margin: 0;
       padding: 0;
@@ -95,40 +95,40 @@ function statisticsInterface() {
       left: 20px;
     }
     `
-        addSettingsButton.id = `settings`
-        addSettingsButton.classList = `settings`
-        function changeSS(usersSS) {
-            let stringCounter = 1
-            let sostavChangeBattons = `<div>`
-            for (let i = 1; i <= 20; i++) {
-                let sostasAsString = i
-                let displayInput = ``
-                if (i < 10) {
-                    sostasAsString = `0` + i
-                }
-                for (const key in usersSS) {
-                    if (usersSS[key] == i) {
-                        displayInput = `checked`
-                    }
-                }
+    addSettingsButton.id = `settings`
+    addSettingsButton.classList = `settings`
+    function changeSS(usersSS) {
+      let stringCounter = 1
+      let sostavChangeBattons = `<div>`
+      for (let i = 1; i <= 20; i++) {
+        let sostasAsString = i
+        let displayInput = ``
+        if (i < 10) {
+          sostasAsString = `0` + i
+        }
+        for (const key in usersSS) {
+          if (usersSS[key] == i) {
+            displayInput = `checked`
+          }
+        }
 
 
-                sostavChangeBattons = sostavChangeBattons + `
+        sostavChangeBattons = sostavChangeBattons + `
         <label>
           <input type="checkbox" name="usersSS" style="display:none;" ${displayInput} >
           <span id="word_opts">${sostasAsString}</span>
         </label>
         `
-                if (stringCounter == 5) {
-                    sostavChangeBattons = sostavChangeBattons + `<div></div>`
-                    stringCounter = 0
-                }
-                stringCounter++
-            }
-            sostavChangeBattons = sostavChangeBattons + `</div>`
-            return sostavChangeBattons
+        if (stringCounter == 5) {
+          sostavChangeBattons = sostavChangeBattons + `<div></div>`
+          stringCounter = 0
         }
-        addSettingsButton.innerHTML = `
+        stringCounter++
+      }
+      sostavChangeBattons = sostavChangeBattons + `</div>`
+      return sostavChangeBattons
+    }
+    addSettingsButton.innerHTML = `
       auto MD <input type="checkbox" name="autoMD" ${usersSettings.autoMD}><BR>
       Шаблоны <input type="checkbox" name="tamplaties" ${usersSettings.tamplaties}><BR>
       Проверять задвоенную загрузку <input type="checkbox" name="checkReload" ${usersSettings.checkReload}><BR>
@@ -138,44 +138,44 @@ function statisticsInterface() {
     <BR>
     `
 
-        if (document.getElementById(`month`) == null) {
-            document.querySelector("#b-footer > div").style.height = "500px";
-            document.querySelector("#b-footer").style.height = "500px";
-            document.querySelector("#b-footer > div > div.b-copyright").after(addStatInterface)
-            document.querySelector("#b-footer > div > div.b-copyright").after(classBlok)
-            document.querySelector("#b-footer > div > div.b-feedback").after(addSettingsButton)
-        } else {
-            document.querySelector("#b-footer > div").style.height = "30px";
-            document.querySelector("#b-footer").style.height = "30px";
-            document.querySelector("#b-footer > div > div:nth-child(3)").remove();
-        }
+    if (document.getElementById(`month`) == null) {
+      document.querySelector("#b-footer > div").style.height = "500px";
+      document.querySelector("#b-footer").style.height = "500px";
+      document.querySelector("#b-footer > div > div.b-copyright").after(addStatInterface)
+      document.querySelector("#b-footer > div > div.b-copyright").after(classBlok)
+      document.querySelector("#b-footer > div > div.b-feedback").after(addSettingsButton)
+    } else {
+      document.querySelector("#b-footer > div").style.height = "30px";
+      document.querySelector("#b-footer").style.height = "30px";
+      document.querySelector("#b-footer > div > div:nth-child(3)").remove();
     }
-    function reportTableBild() {
-        const usersButtons = document.getElementById(`statStart`)
-        usersButtons.addEventListener('click', () => { statTablegeneration() })
+  }
+  function reportTableBild() {
+    const usersButtons = document.getElementById(`statStart`)
+    usersButtons.addEventListener('click', () => { statTablegeneration() })
 
-        //Строит отчет по выбранному составу
-        function statTablegeneration() {
-            let dataForLS = {}
-            let sostavNumber = document.querySelector("#sostavNumber").value
-            const lastMonth = document.querySelector("#lastMonth").value
-            dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`))
-            let counter = { "Прошлый месяц": lastMonth }
+    //Строит отчет по выбранному составу
+    function statTablegeneration() {
+      let dataForLS = {}
+      let sostavNumber = document.querySelector("#sostavNumber").value
+      const lastMonth = document.querySelector("#lastMonth").value
+      dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`))
+      let counter = { "Прошлый месяц": lastMonth }
 
-            let needMonth = Number(document.querySelector("#month").value.substr(5, 7))
+      let needMonth = Number(document.querySelector("#month").value.substr(5, 7))
 
-            for (let key in dataForLS) {
-                if (dataForLS[key].month == needMonth) {
-                    if (counter[dataForLS[key].day] == null) {
-                        counter[dataForLS[key].day] = 0;
-                    }
-                    counter[dataForLS[key].day]++;
-                }
-            }
+      for (let key in dataForLS) {
+        if (dataForLS[key].month == needMonth) {
+          if (counter[dataForLS[key].day] == null) {
+            counter[dataForLS[key].day] = 0;
+          }
+          counter[dataForLS[key].day]++;
+        }
+      }
 
-            let tableForStat = document.createElement(`div`);
+      let tableForStat = document.createElement(`div`);
 
-            let tableString = `
+      let tableString = `
           <table>
               <tr>
                   <td>День</td>
@@ -183,53 +183,53 @@ function statisticsInterface() {
               </tr>
           `;
 
-            for (const key in counter) {
-                tableString =
-                    tableString +
-                    `
+      for (const key in counter) {
+        tableString =
+          tableString +
+          `
               <tr>
               <td>${key}</td>
               <td>${counter[key]}</td>
           </tr>`
-            }
-            tableString = tableString + `</table>`
-            tableForStat.innerHTML = tableString
-            tableForStat.style.color = `#FFF`
-            tableForStat.style.position = `absolute`
-            tableForStat.style.margin = `30px 10px 10px 10px`
-            document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
+      }
+      tableString = tableString + `</table>`
+      tableForStat.innerHTML = tableString
+      tableForStat.style.color = `#FFF`
+      tableForStat.style.position = `absolute`
+      tableForStat.style.margin = `30px 10px 10px 10px`
+      document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
 
+    }
+
+  }
+
+  function setSettings() {
+    let elem = document.querySelector("#settings")
+    elem.addEventListener("click", () => {
+      let preSet = {}
+
+      for (let i = 0; i < document.querySelectorAll("#settings > input[type=checkbox]").length; i++) {
+        let x = document.querySelectorAll("#settings > input[type=checkbox]")[i]
+        if (x.checked) {
+          preSet[x.name] = "checked"
+        } else {
+          preSet[x.name] = ""
         }
 
-    }
+      }
+      preSet.usersSS = []
+      for (let i = 0; i < document.querySelectorAll("#settings > div > div > label").length; i++) {
+        let ss = document.querySelectorAll("#settings > div > div > label > input[type=checkbox]")[i]
+        if (ss.checked) {
+          preSet.usersSS.push(i + 1)
+        }
+      }
 
-    function setSettings() {
-        let elem = document.querySelector("#settings")
-        elem.addEventListener("click", () => {
-            let preSet = {}
-
-            for (let i = 0; i < document.querySelectorAll("#settings > input[type=checkbox]").length; i++) {
-                let x = document.querySelectorAll("#settings > input[type=checkbox]")[i]
-                if (x.checked) {
-                    preSet[x.name] = "checked"
-                } else {
-                    preSet[x.name] = ""
-                }
-
-            }
-            preSet.usersSS = []
-            for (let i = 0; i < document.querySelectorAll("#settings > div > div > label").length; i++) {
-                let ss = document.querySelectorAll("#settings > div > div > label > input[type=checkbox]")[i]
-                if (ss.checked) {
-                    preSet.usersSS.push(i + 1)
-                }
-            }
-
-            localStorage.setItem(`usersSettings`, JSON.stringify(preSet))
-        })
+      localStorage.setItem(`usersSettings`, JSON.stringify(preSet))
+    })
 
 
-    }
+  }
 
 }
 

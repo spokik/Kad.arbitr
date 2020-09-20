@@ -12,9 +12,9 @@ createNewScript('./modules/addStaticOnLocalStorage.js')
 
 
 function createNewScript(url) {
-    const name = document.createElement('script')
-    name.setAttribute("type", "module");
-    name.setAttribute("src", chrome.extension.getURL(url))
-    head.insertBefore(name, head.lastChild);
+  const name = document.createElement('script')
+  name.setAttribute("type", "module");
+  name.setAttribute("src", chrome.extension.getURL(url))
+  head.insertBefore(name, head.lastChild);
 }
 
