@@ -14,7 +14,7 @@
 	"content_scripts": [
 		{
 			"js": [
-				"content.js"
+				"modules.js"
 			],
 			"matches": [
 				"https://*.kad.arbitr.ru/Card/*",

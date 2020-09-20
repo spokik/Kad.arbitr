@@ -5,9 +5,6 @@ import { windowForUserScript } from './modules/alert.js';
 import { defaultMD } from './modules/autoMD.js';
 
 if (document.location.href === `https://kad.arbitr.ru/`) { windowForUserScript() }
-injectFunction();
-
-
 
 if (document.location.href != `https://kad.arbitr.ru/`) {
   let usersSettings = JSON.parse(localStorage.getItem(`usersSettings`))
