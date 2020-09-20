@@ -25,7 +25,8 @@
 	],
 	"web_accessible_resources": [
 		"kad.js",
-		"modules/alert.js",
+		"index.js",
+		"modules/selectYear.js",
 		"modules/autoMD.js",
 		"modules/addBattons.js",
 		"modules/addTamplaties.js",

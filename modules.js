@@ -3,7 +3,7 @@ const head = document.head || document.getElementsByTagName("head")[0] || docume
 
 createNewScript('kad.js')
 createNewScript('./modules/autoMD.js')
-createNewScript('./modules/alert.js')
+createNewScript('./modules/selectYear.js')
 createNewScript('./modules/addBattons.js')
 createNewScript('./modules/addTamplaties.js')
 createNewScript('./modules/checkReload.js')
