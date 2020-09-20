@@ -26,7 +26,13 @@
 	"web_accessible_resources": [
 		"kad.js",
 		"modules/alert.js",
-		"modules/autoMD.js"
+		"modules/autoMD.js",
+		"modules/addBattons.js",
+		"modules/addTamplaties.js",
+		"modules/checkReload.js",
+		"modules/statisticsInterface.js",
+		"modules/addStaticOnLocalStorage.js",
+		"modules/usersSettings.js"
 	],
 	"manifest_version": 2
 }

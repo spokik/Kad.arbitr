@@ -1,9 +1,15 @@
 'use strict';
 const head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
 
+createNewScript('kad.js')
 createNewScript('./modules/autoMD.js')
 createNewScript('./modules/alert.js')
-createNewScript('kad.js')
+createNewScript('./modules/addBattons.js')
+createNewScript('./modules/addTamplaties.js')
+createNewScript('./modules/checkReload.js')
+createNewScript('./modules/statisticsInterface.js')
+createNewScript('./modules/addStaticOnLocalStorage.js')
+
 
 function createNewScript(url) {
     const name = document.createElement('script')
