@@ -44,8 +44,10 @@ function addStaticOnLocalStorage() {
             else { sostav = ' состав неопределен' }
           }
         }
-
-        sostavAtPopup(sostav)
+        if(document.querySelector(`#userSS`) === null){
+          sostavAtPopup(sostav)
+        }
+        
 
         let params = {
           saveScanStat: saveScanStat,
@@ -88,7 +90,7 @@ function addStaticOnLocalStorage() {
   function sostavAtPopup(sostav) {
     const elem = document.createElement("div")
     elem.className = "b-popup-info"
-    elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+    elem.innerHTML = `<div class="b-popup-info-title" id="userSS">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
     let isYourSostav = false
     function isCorrectSostav() {
       for (let i = 0; i < usersSettings.usersSS.length; i++) {
