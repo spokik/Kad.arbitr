@@ -72,15 +72,14 @@ function addStaticOnLocalStorage() {
       //Срабатывает прии НАЖАТИИ на "Сохранить"
       //Сохраняет в локал сторадж данные загруженного документа
       params.saveScanStat.onclick = () => {
-        let now = new Date()
-        let dataForLS = {}
-        dataForLS = JSON.parse(localStorage.getItem(`sostav${params.sostav}`))
+        let currentDate = new Date()
+        let dataForLS = dataForLS = JSON.parse(localStorage.getItem(`sostav${params.sostav}`))
         if (dataForLS == null) {
-          dataForLS = {};
+          dataForLS = {}
         }
         dataForLS[params.docId] = {
-          day: `${now.getDate()}`,
-          month: `${1 + now.getMonth()}`,
+          day: `${currentDate.getDate()}`,
+          month: `${1 + currentDate.getMonth()}`,
           a40: `${params.a40}`,
         }
         localStorage.setItem(`sostav${params.sostav}`, JSON.stringify(dataForLS)
@@ -92,20 +91,8 @@ function addStaticOnLocalStorage() {
     const elem = document.createElement("div")
     elem.className = "b-popup-info"
     elem.innerHTML = `<div class="b-popup-info-title" id="userSS">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
-    let isYourSostav = false
-    function isCorrectSostav() {
-      for (let i = 0; i < usersSettings.usersSS.length; i++) {
-        if (usersSettings.usersSS[i] == sostav) {
-          isYourSostav = true
-          return
-        } else {
-          isYourSostav = false
 
-        }
-      }
-    }
-    isCorrectSostav()
-    if (sostav === ` состав неопределен` || !isYourSostav) {
+    if (sostav === ` состав неопределен` || usersSettings.usersSS.includes(sostav, 0)) {
       elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" id="SSOnPop" title="${sostav}">${sostav}</span>`
       elem.style.color = "red"
     }

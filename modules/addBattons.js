@@ -26,12 +26,11 @@ function sostavPerDay(sostavs) {
     }
   }
   //string stringify
+  // const stringReturn = counter.map((key, index) => (`${index} состав: ${key} штук | `));
   let stringReturn = ''
-  for (let key in counter) {
-
-    stringReturn = stringReturn + `| ${key} состав: ${counter[key]} штук `
-  }
+  for (let key in counter) { stringReturn = stringReturn + `| ${key} состав: ${counter[key]} штук ` }
   return stringReturn
+
 }
 
 export { addBattons }

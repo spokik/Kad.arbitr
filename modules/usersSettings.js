@@ -1,5 +1,5 @@
 const usersSettings = JSON.parse(localStorage.getItem(`usersSettings`))
-if (usersSettings == undefined) {
+if (!usersSettings) {
   usersSettings = {
     autoMD: "checked",
     tamplaties: "checked",
