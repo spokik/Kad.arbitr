@@ -1,6 +1,6 @@
 import { usersSettings } from './usersSettings.js'
 
-// После и основным интерфейсом скрипта
+// Строка статистике в поле меню
 function statisticsInterface() {
   //Кнопка статистики
   document.getElementById("activeStat").onclick = () => {
