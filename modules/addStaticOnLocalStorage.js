@@ -50,9 +50,6 @@ function addStaticOnLocalStorage() {
           lastOnloadFile()
         }
 
-
-
-
         const params = { saveScanStat, sostav, docId, a40, }
         resolve(params)
 
@@ -73,10 +70,8 @@ function addStaticOnLocalStorage() {
       //Сохраняет в локал сторадж данные загруженного документа
       params.saveScanStat.onclick = () => {
         let currentDate = new Date()
-        let dataForLS = dataForLS = JSON.parse(localStorage.getItem(`sostav${params.sostav}`))
-        if (dataForLS == null) {
-          dataForLS = {}
-        }
+        let dataForLS = JSON.parse(localStorage.getItem(`sostav${params.sostav}`)) || {}
+
         dataForLS[params.docId] = {
           day: `${currentDate.getDate()}`,
           month: `${1 + currentDate.getMonth()}`,
@@ -90,15 +85,28 @@ function addStaticOnLocalStorage() {
   function sostavAtPopup(sostav) {
     const elem = document.createElement("div")
     elem.className = "b-popup-info"
-    elem.innerHTML = `<div class="b-popup-info-title" id="userSS">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav}</span>`
+    elem.innerHTML = `<div class="b-popup-info-title" id="userSS">Состав</div><span class="b-popup-info-text js-popup-info-text" title="${sostav}">${sostav} </span>`
 
     if (sostav === ` состав неопределен` || usersSettings.usersSS.includes(sostav, 0)) {
-      elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" id="SSOnPop" title="${sostav}">${sostav}</span>`
+      const buttonsSelectionSS = usersSettings.usersSS.map((key) => { return `<div id="SS${key}" class="tampleteButton" style="width: auto;">${key}</div>` })
+      elem.innerHTML = `<div class="b-popup-info-title">Состав</div><span class="b-popup-info-text js-popup-info-text" id="SSOnPop" title="${sostav}">${sostav}  </span>` + buttonsSelectionSS
       elem.style.color = "red"
+      if (!document.querySelector(`#SSOnPop`)) {
+        document.querySelector("div.js-popup-info_attributes").append(elem)
+        for (let i = 0; i < usersSettings.usersSS.length; i++) {
+          document.querySelector(`#SS${usersSettings.usersSS[i]}`).addEventListener("click", () => {
+            document.querySelector("#SSOnPop").innerText = usersSettings.usersSS[i]
+            document.querySelector("#SSOnPop").style.color = "black"
+            sostav = usersSettings.usersSS[i]
+            return sostav
+          })
+        }
+      }
     }
-    if (document.querySelector(`#SSOnPop`) !== null) { } else { document.querySelector("div.js-popup-info_attributes").append(elem) }
+    if (!document.querySelector(`#SSOnPop`)) { document.querySelector("div.js-popup-info_attributes").append(elem) }
 
   }
+
   function lastOnloadFile() {
     const elem = document.createElement("div")
     elem.id = `lastOnloadFile`
@@ -107,6 +115,8 @@ function addStaticOnLocalStorage() {
       .after(elem)
   }
 }
-
+function changeSS(SS) {
+  sostav = SS
+}
 
 export { addStaticOnLocalStorage }
