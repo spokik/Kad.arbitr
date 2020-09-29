@@ -1,6 +1,6 @@
 # Kad.arbitr
 
-Для использования скрипта, необходимо [скачать](https://github.com/spokik/Kad.arbitr/archive/master.ziphttps://github.com/spokik/Kad.arbitr/archive/master.zip) файлы. распаковать в удобную папку.
+Для использования скрипта, необходимо [скачать](https://github.com/spokik/Kad.arbitr/archive/master.zip) файлы. распаковать в удобную папку.
 Далее следует в crome перейти в настройки ваших расширений => [browser://extensions/](browser://extensions/)
 В правом углу включить "режим разработчика", после чего у вас должно появится меню.
 Выбираем "загрузить распакованное расширение", выбираем папку в которую мы распокавали файлы.
