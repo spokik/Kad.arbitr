@@ -4,27 +4,6 @@ function addTamplaties() {
   const applicantl1 = document.querySelector("#gr_case_partps > table > tbody > tr > td.plaintiffs.first > div > ul > li > span > a").innerText; //Истец
   const applicantl2 = document.querySelector("#gr_case_partps > table > tbody > tr > td.defendants > div > ul > li > span > a").innerText; //Ответчик
 
-
-  const classBlok = document.createElement("style")
-  classBlok.innerHTML = "div.tampleteButton{height: 30px;width: 130px;-webkit-appearance: button;-webkit-writing-mode: horizontal-tb !important;color: buttontext;text-shadow: none;display: inline-block;text-align: center;align-items: flex-start;background-color: buttonface;box-sizing: border-box;margin: 0em;font: 400 13.3333px Arial;padding: 1px 6px;border-width: 2px;border-style: outset;border-color: buttonface;border-image: initial;}}";
-  const divBlok = document.createElement("div")
-  divBlok.id = "UserTempale"
-  divBlok.innerHTML = `
-      <div id="istec" class="tampleteButton" >Истец</div>
-      <div id="otvetchik" class="tampleteButton">Ответчик</div>
-      <div id="PoObshimPravilam" class="tampleteButton">По общим</div>
-      <div id="Clarify" class="tampleteButton">Уточнение.И</div>
-      <br>
-      <div id="hodOPriob" class="tampleteButton">Приобщении.И</div>
-      <div id="Otziv" class="tampleteButton">Отзыв.О</div>
-      <div id="otkazOtIska" class="tampleteButton">Отказ.И</div>
-      <div id="processualnoePravopriemstvo" class="tampleteButton">Правоприемство</div>`;
-
-  document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > div.b-popup-button.js-upload-submit").before(classBlok)
-  document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > div.b-popup-button.js-upload-submit").before(divBlok)
-
-
-
   //События меняют стороны
   document.getElementById("istec").onclick = () => (document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > dl > dd > div > span > label > input").value = applicantl1);
   document.getElementById("otvetchik").onclick = () => (document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > dl > dd > div > span > label > input").value = applicantl2);
@@ -40,7 +19,6 @@ function addTamplaties() {
     document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > dl > dd > div > span > label > input").value = licantl;
     document.querySelector("#b-container > div.b-popup-wrapper.js-popup-wrapper.js-popup-wrapper--upload > div.b-popup.b-popup--blue.b-popup--upload.js-popup--upload > form > table > tbody > tr > td.b-popup-sj-table-item.b-popup-sj-table-item--name > dl > dd > a > span.selectBox-label").innerHTML = showText;
   }
-
   //Данные для заполнения шаблонов
   const tamplatesValue = {
     otziv: {
