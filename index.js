@@ -6,11 +6,9 @@ import { usersSettings } from './modules/usersSettings.js'
 import { checkReload } from './modules/checkReload.js'
 import { statisticsInterface } from './modules/statisticsInterface.js'
 import { addStaticOnLocalStorage } from './modules/addStaticOnLocalStorage.js'
-// import { css } from './src/CSS/styles.css'
 
 
 export {
-  // css,
   windowForUserScript,
   defaultMD,
   addBattons,

@@ -11,9 +11,9 @@ createNewScript('./modules/statisticsInterface.js')
 createNewScript('./modules/addStaticOnLocalStorage.js')
 
 
-function createNewScript(url, type = "module") {
+function createNewScript(url) {
   const name = document.createElement('script')
-  name.setAttribute("type", type);
+  name.setAttribute("type", "module");
   name.setAttribute("src", chrome.extension.getURL(url))
   head.insertBefore(name, head.lastChild);
 }
