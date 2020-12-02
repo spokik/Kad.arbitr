@@ -16,6 +16,9 @@
 			"js": [
 				"modules.js"
 			],
+			"css": [
+				"src/CSS/styles.css"
+			],
 			"matches": [
 				"https://*.kad.arbitr.ru/Card/*",
 				"https://*.kad.arbitr.ru/*"
