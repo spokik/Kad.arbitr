@@ -1,6 +1,8 @@
 import { usersSettings } from './usersSettings.js'
+// import { css } from '../index.js'
 
-// После и основным интерфейсом скрипта
+
+// Строка статистике в поле меню
 function statisticsInterface() {
   //Кнопка статистики
   document.getElementById("activeStat").onclick = () => {
@@ -9,10 +11,9 @@ function statisticsInterface() {
       reportTableBild()
       resolve()
     })
-    promise.catch((err) => { console.error(`Error: `, err) })
-      .then(() => { setSettings() })
-
-
+    promise
+    .catch((err) => { console.error(`Error: `, err) })
+    .then(() => { setSettings() })
   }
   //добавляет в открытое поле статистики необходимые кнопки
   function showSettingButton() {
@@ -20,81 +21,18 @@ function statisticsInterface() {
     let addStatInterface = document.createElement("div")
     let addSettingsButton = document.createElement("div")
     addStatInterface.innerHTML = `
-      <input type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
-        <input type="number" placeholder="Прошлый месяц" id="lastMonth">
-        <input list="sostavNumber" id="sostavNumber">
+      <input style="width:90px" type="month" id="month" name="month" min="${now.toISOString().substr(0, 4)}-01" value="${now.toISOString().substr(0, 7)}">
+        <input style="width:60px" type="number" placeholder="Прошлый месяц" id="lastMonth">
+        <input style="width:90px" type="number" placeholder="Число(день)" id="dayStat">
+        <input style="width:90px" list="sostavNumber" placeholder="Состав" id="sostavNumber">
         <datalist id="sostavNumber">
         <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
         </datalist>
         <div id="statStart" class="tampleteButton" style="height:23px">Посчитать</div>
+        <div id="dayStatistic" class="tampleteButton" style="height:23px">за день</div>
     `
     let classBlok = document.createElement("style")
-    classBlok.innerHTML = `
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f3f3f3;
-    }
-    .settings {
-      position: absolute;
-      left: 82%;
-      top: 40px;
-      width: 250px;
-      border: 1px solid rgb(205 205 224);
-      padding: 5px;
-      color: rgb(255 255 255);
-      background: rgb(50 50 51);
-      display: block;
-    }
-    #word_opts {
-      position: relative;
-      padding: 4px;
-      width: 60px;
-      height: 60px;
-      background: #c6c6c6;
-      outline: none;
-      border-radius: 7px;
-      box-shadow: inset 0 0 5px rgba(0,0,0, .2);
-      transition: 0.5s;
-    }
-
-    label input[type="checkbox"]:checked + #word_opts {
-      background: #02a9f4;
-    }
-
-    input[type="checkbox"] {
-      width: 40px;
-      height: 20px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background: #c6c6c6;
-      outline: none;
-      border-radius: 50px;
-      box-shadow: inset 0 0 5px rgba(0,0,0, .2);
-      transition: 0.5s;
-      position: absolute;
-      right: 40px;
-    }
-    input:checked[type="checkbox"] {
-      background: #02a9f4;
-    }
-    input[type="checkbox"]::before {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      top: 0;
-      left: 0;
-      background: #fff;
-      transform: scale(1.1);
-      box-shadow: 0 2px 5px rgba(0,0,0, .2);
-      transition: 0.5s;
-    }
-    input:checked[type="checkbox"]::before {
-      left: 20px;
-    }
-    `
+    classBlok.innerHTML = `css`
     addSettingsButton.id = `settings`
     addSettingsButton.classList = `settings`
     function changeSS(usersSS) {
@@ -154,13 +92,15 @@ function statisticsInterface() {
     const usersButtons = document.getElementById(`statStart`)
     usersButtons.addEventListener('click', () => { statTablegeneration() })
 
+    const dayStatistic = document.getElementById(`dayStatistic`)
+    dayStatistic.addEventListener('click', () => { dayReport(document.getElementById(`dayStat`).value) })
     //Строит отчет по выбранному составу
     function statTablegeneration() {
       let dataForLS = {}
       let sostavNumber = document.querySelector("#sostavNumber").value
       const lastMonth = document.querySelector("#lastMonth").value
       dataForLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`))
-      let counter = { "Прошлый месяц": lastMonth }
+      let counter = { "C прошлого месяца": lastMonth }
 
       let needMonth = Number(document.querySelector("#month").value.substr(5, 7))
 
@@ -174,7 +114,6 @@ function statisticsInterface() {
       }
 
       let tableForStat = document.createElement(`div`);
-
       let tableString = `
           <table>
               <tr>
@@ -199,6 +138,47 @@ function statisticsInterface() {
       tableForStat.style.margin = `30px 10px 10px 10px`
       document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
 
+    }
+    //Строит отчет по дню
+    function dayReport(day ) {
+      let needMonth = Number(document.querySelector("#month").value.substr(5, 7))
+      const sostavNumber = document.querySelector("#sostavNumber").value
+      const dataFromLS = JSON.parse(localStorage.getItem(`sostav${sostavNumber}`))
+      let counter = { "что-то": lastMonth }
+      for (let key in dataFromLS) {
+        if (dataFromLS[key].month == needMonth && dataFromLS[key].day == day) {
+          counter[key] == dataFromLS[key].a40
+        }
+      }
+
+      let tableForStat = document.createElement(`div`);
+      let tableString = `
+          <table>
+              <tr>
+                  <td>Номер</td>
+                  <td>Время</td>
+                  <td>опции</td>
+              </tr>
+          `;
+
+      for (const key in counter) {
+        tableString =
+          tableString +
+          `
+              <tr>
+              <td>${key}</td>
+              <td>time</td>
+              <td>del</td>
+          </tr>`
+      }
+      tableString = tableString + `</table>`
+      tableForStat.innerHTML = tableString
+      tableForStat.style.color = `#FFF`
+      tableForStat.style.position = `absolute`
+      tableForStat.style.margin = `30px 10px 10px 10px`
+      document.querySelector("#b-footer > div > div.b-copyright").before(tableForStat)
+
+    
     }
 
   }

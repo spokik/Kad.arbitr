@@ -13,39 +13,14 @@ function windowForUserScript() {
     </label></fieldset>`;
   document.getElementById('b-form-submit').before(div);
 
-  // getNumberInput.oninput = zamena();
-  function zamena() {
-
-    let a40 = document.getElementById(NumberWithoutA40).value;
-    let year20 = document.getElementById(year20).checked;
-    let year19 = document.getElementById(year19).checked;
-    let year18 = document.getElementById(year18).checked;
-    let year = 20;
-
-    if (year20 == true) { year = 20; }
-    else if (year19 == true) { year = 19; }
-    else if (year18 == true) { year = 18; }
-    else { alert(`ЕРОР! Чет какая - то шляпа введина в место года`) }
-
-    let fullNumber = "А40-" + a40 + "-" + year;
-    document.querySelector("#sug-cases > div > input").value = fullNumber;
-  }
-
-
   //Устанавливаем по умолчанию А40-88888-20
   document.querySelector("#sug-cases > div > input").value = ` А40-88888-20`;
-  //пересобирает строку, заменя 2 последний цифры
+  //пересобирает строку, заменяя 2 последний цифры
   function setYear(year) {
-    let newNumber = document.querySelector("#sug-cases > div > input").value
-    let inString = document.querySelector("#sug-cases > div > input").value["length"]
-    var getNewNumber = ``
-    let i = 0
-    while (inString - 2 > i) {
-      getNewNumber = getNewNumber + newNumber[i]
-      i++
-    }
-    getNewNumber = getNewNumber + year
-    return getNewNumber
+    let oldNumber = document.querySelector("#sug-cases > div > input").value
+    let newNumber = ``
+    newNumber = oldNumber.slice(0,oldNumber.length-2) + year
+    return newNumber
   }
 
   //Красим фон и меняем год
